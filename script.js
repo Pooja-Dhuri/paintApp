@@ -16,10 +16,17 @@ selectedTool = "brush",
 brushWidth = 5,
 selectedColor="#000"
 
+const setCanvasBackground=()=>{
+    ctx.fillStyle="#fff";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle=selectedColor;
+}
+
 window.addEventListener("load", () => {
   //setting canvas width/height.. offsetwidth/height returns viewable width/height of an element
   canvas.width = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
+  setCanvasBackground()
 });
 
 const drawRect = (e) => {
@@ -111,9 +118,15 @@ colorPicker.addEventListener("change",()=>{
 
 clearCanvas.addEventListener("click",()=>{
     ctx.clearRect(0,0,canvas.width,canvas.height)
+    setCanvasBackground()
 })
 
-saveImage.addEventListener("click",)
+saveImage.addEventListener("click",()=>{
+    const link=document.createElement("a");
+    link.download=`${Date.now()}.jpg`;
+    link.href=canvas.toDataURL();
+    link.click();//clicking link to download image
+})
 
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
